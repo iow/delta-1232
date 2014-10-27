@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{feynmp}
+\usepackage{amssymb,amsthm,amsbsy,color,paralist}
+
+\newcommand{\hp}{{\frac{1}{2}}}
+\newcommand{\hm}{{-\frac{1}{2}}}
+
+\newcommand{\bk}{{\boldsymbol k}}
+\newcommand{\bq}{{\boldsymbol q}}
+\newcommand{\bp}{{\boldsymbol p}}
+\newcommand{\bK}{{\boldsymbol K}}
+\newcommand{\bP}{{\boldsymbol P}}
+
+\newcommand{\cG}{{\cal G}}
+\newcommand{\cF}{{\cal F}}
+\newcommand{\cma}{{\theta_{cm}}}
+\newcommand{\cM}{{\cal M}}
+
+\begin{document}
+	\unitlength = 1mm
+	% determine the unit for the size of diagram.
+\section{ $eN \to e\Delta$ reaction}
+	Under certain circumstances, reaction $eN \to e\Delta$ reaction
+	can occur. In lowest order, amplitude can be discribed by the
+	tree-level diagram (fig. \ref{fig:delta-amp} )
+	\begin{figure} \centering \label{fig:delta-amp}
+	\begin{fmffile}{delta-amp}
+		\begin{fmfgraph*}(40,20)
+			\fmfbottom{i1,d1,o1}
+			\fmftop{i2,d2,o2}
+			\fmf{double,label=$\Delta(\mu,,\tau)$}{v1,o1}
+			\fmfv{decor.shape=circle,decor.filled=hatched,
+				decor.size=3thick}{v1}
+			\fmf{fermion,label=$N(p,,\lambda)$}{i1,v1}
+			\fmf{fermion,label=$e(k,,h)$}{i2,v2}
+			\fmf{fermion,label=$e(k',,h')$}{v2,o2}
+			\fmf{photon,tension=0,label=$\gamma$}{v1,v2}
+		\end{fmfgraph*}
+	\end{fmffile}
+	\caption{Tree-level contribution to reaction $eN \to e\Delta$}
+	\end{figure}
+	
+	
+\section{$\Delta(1232)$ contribution $e N \to e N$ scattering amplitude}
+	Previous reaction
+	\begin{figure} \centering
+	\begin{fmffile}{delta-box}
+		\begin{fmfgraph*}(40,20)
+			\fmfbottom{i1,d1,o1}
+			\fmftop{i2,d2,o2}
+			\fmf{fermion,label=$N(p',,\lambda')$}{v2,o1}
+			\fmf{double,label=$\Delta$}{v1,v2}
+			\fmfv{decor.shape=circle,decor.filled=hatched,
+				decor.size=3thick}{v1,v2}
+			\fmf{fermion,label=$N(p,,\lambda)$}{i1,v1}
+			\fmf{fermion,label=$e(k,,h)$}{i2,v3}
+			\fmf{fermion}{v3,v4}
+			\fmf{fermion,label=$e(k',,h')$}{v4,o2}
+			\fmf{photon,tension=0,label=$\gamma$}{v1,v3}
+			\fmf{photon,tension=0,label=$\gamma$}{v2,v4}
+		\end{fmfgraph*}
+	\end{fmffile}
+	\caption{Box-diagram contribution to reaction $eN \to eN$ with %
+		$\Delta$ intermediate particle.}
+	\end{figure}
+	
+	In general, 16 different amplitudes $T_{h'\lambda',h\lambda}$ 
+	for different helicity states exist. However, due to conservation 
+	laws some of them appear to be trivial:
+	\begin{itemize}
+		\item Assuming the mass of electron $m_e$ is relatively small 
+			to energies of the problem, we can neglect it. In this 
+			limit, helicity of the electron is conserved, so only half 
+			of amplitudes survive ($16/2 = 8$);
+		\item Parity is conserved in this channel with high accuracy, 
+			therefore half of nonzero amplitudes appear to be equal 
+			to another ones. Number of independent amplitudes is 
+			smaller by factor of $2$ ($8/2 = 4$);
+		\item Time-inversion symmetry connects two of remaining four 
+			independent amplitudes.			
+	\end{itemize}
+	Therefore we are free to discuss only $3$ amplitudes: 
+	$T_{1} = T_{\hp \hp, \hp \hp}, T_{2} = T_{\hp \hm, \hp \hp},$
+	$T_{3} = T_{\hp \hm, \hp \hm}$.
+	
+	The most general form of non-flip amplitude $T$ is:
+	\begin{equation} \label{str_amp} 
+		T^{non-flip} = \frac{e^2}{Q^2} \bar{u}(k',h') \gamma_\mu u(k,h) 
+		\, \times \, \bar{u}(p',\lambda') 
+		\left(\cG_M  \gamma^\mu - \cF_2 
+		\frac{P^{\mu}}{M} + \cF_3  \frac{\hat{K} P^{\mu}}{M^2} 
+		\right) u(p,\lambda).
+	\end{equation}
+	
+\end{document}
