@@ -20,10 +20,10 @@ chiFirst[theta_, phi_, helicity_] :=
 		-1/2,
 			{-Exp[-I phi] Sin[theta/2], Cos[theta/2]},
 		_,
-			Message[chiFirst::nnarg, helicity]
+			Message[chiFirst::invhel, helicity]
 		];
 chiFirst[helicity_] := chiFirst[0, 0, helicity];
-chiFirst::nnarg="Helicity `1` is not equal to +1/2 or -1/2";
+chiFirst::invhel="Helicity `1` is not equal to +1/2 or -1/2";
 
 								
 chiSecond::usage =
@@ -72,7 +72,7 @@ leptonOut[mN_, s_, theta_, phi_, helicity_]:=
 		},
 			Return[Sqrt[k0 + mL]
 					*Join[chiFirst[theta,phi,helicity],
-					      (kVector.sigmaVector/(k0 + mL)).
+					      (kVector.pauliVector/(k0 + mL)).
 					       chiFirst[theta,phi,helicity]]
 			]
 	];
@@ -100,7 +100,7 @@ nucleonOut[mN_, s_, theta_, phi_, helicity_]:=
 		},
 			Return[Sqrt[p0 + mN]
 					* Join[chiSecond[theta,phi,helicity],
-					      (pVector.sigmaVector/(p0 + mN)).
+					      (pVector.pauliVector/(p0 + mN)).
 					       chiSecond[theta,phi,helicity]]
 			]
 	];
@@ -113,11 +113,13 @@ nucleonIn[mN_, s_, helicity_]:=
 
 
 
+g::usage="Minkowski metric tensor";
 Subscript[g, mu_,nu_] :=
 	If[ mu != nu,
 		(*true*)  0,
 		(*false*) If[mu == 0, 1, -1]
 	]; 
+gamma::usage="Dirac gamma matrices (Dirac basis)";
 Subscript[gamma,0]={{1,0,0,0},{0,1,0,0},{0,0,-1,0},{0,0,0,-1}};
 Subscript[gamma,1]={{0,0,0,1},{0,0,1,0},{0,-1,0,0},{-1,0,0,0}};
 Subscript[gamma,2]={{0,0,0,-I},{0,0,I,0},{0,I,0,0},{-I,0,0,0}};
@@ -125,6 +127,9 @@ Subscript[gamma,3]={{0,0,1,0},{0,0,0,-1},{-1,0,0,0},{0,1,0,0}};
 Subscript[e,0]={{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
 Subscript[gamma,5]={{0,0,1,0},{0,0,0,1},{1,0,0,0},{0,1,0,0}};
 
+sliced::usage="Feynman slash notation";
+sliced[p_]:= Sum[Subscript[g,mu,nu] Subscript[p,mu] Subscript[gamma,nu],{mu, 0, 3},{nu,0,3}];
+dotMinkowski[p_,q_]:= Sum[Subscript[g,mu,nu] Subscript[p,mu] Subscript[q,nu],{mu, 0, 3},{nu,0,3}];
 
 
 jAngular::usage=
@@ -134,3 +139,62 @@ jAngular[2] =  {{0,0,I},{0,0,0},{-I,0,0}};
 jAngular[3] = {{0,-I,0},{I,0,0},{0,0,0}};
 
 
+varepsilon[theta_, phi_,helicity_]:=
+		Switch[helicity,
+		+1,
+			Return[-1/Sqrt[2] {Cos[theta/2]^2 - Exp[2 I phi] Sin[theta/2]^2,
+			                  +I(Cos[theta/2]^2 + Exp[2 I phi] Sin[theta/2]^2),
+						      - Exp[I phi] Sin[theta]}
+			],
+		-1,
+			Return[+1/Sqrt[2] {Cos[theta/2]^2 - Exp[-2 I phi] Sin[theta/2]^2,
+			                  -I(Cos[theta/2]^2 + Exp[-2 I phi] Sin[theta/2]^2),
+						      - Exp[-I phi] Sin[theta]}
+			],
+		0,
+			Return[{Sin[theta]Cos[phi], Sin[theta]Sin[phi], Cos[theta]}],
+		_,
+			Message[varepsilon::invhel, helicity]
+		];
+varepsilon::invhel="Helicity `1` is not equal to +1, 0, -1";
+
+
+Superscript[epsilonSecond[mass_, s_, theta_, phi_, helicity_],mu_] :=
+	If[helicity != 0,
+		If[mu == 0,
+			Return[0],
+			Return[varepsilon[theta, phi,-helicity][[mu]]]
+		],
+		Block[
+			{
+			 p0 = (s + mass^2)/(2Sqrt[s]),
+			 pAbs = (s - mass^2)/(2Sqrt[s])
+			},
+			 If[mu == 0,
+				Return[pAbs/mass],
+				Return[p0 varepsilon[theta, phi, 0][[mu]]/mass]
+			 ]
+		]
+	];
+
+
+Superscript[raritaOut[mDelta_, s_, theta_, phi_, helicity_],mu_]:=
+	Switch[helicity,
+	+3/2,
+		Superscript[epsilonSecond[mDelta,s, theta, phi, +1],mu]*nucleonOut[mDelta, s, theta, phi, +1/2],
+	+1/2,
+		Sqrt[2/3] Superscript[epsilonSecond[mDelta,s, theta, phi, 0],mu]*nucleonOut[mDelta, s, theta, phi, 1/2]
+	   +Sqrt[1/3] Superscript[epsilonSecond[mDelta,s, theta, phi, +1],mu]*nucleonOut[mDelta, s, theta, phi, -1/2],	
+	-1/2,
+		Sqrt[2/3] Superscript[epsilonSecond[mDelta,s, theta, phi, 0],mu]*nucleonOut[mDelta, s, theta, phi, -1/2]
+	   +Sqrt[1/3] Superscript[epsilonSecond[mDelta,s, theta, phi, -1],mu]*nucleonOut[mDelta, s, theta, phi, +1/2],
+	-3/2,
+		Superscript[epsilonSecond[mDelta,s, theta, phi, -1],mu]*nucleonOut[mDelta, s, theta, phi, -1/2],
+	_,
+		Message[raritaTwo::invhel, helicity]
+	]
+raritaOut::invhel="Helicity `1` is not equal to +1, 0, -1";
+
+
+(*Subscript[tDelta[s, theta_, phi_], hOut_, tau_, hIn_, lambdaIn_]:=
+*)

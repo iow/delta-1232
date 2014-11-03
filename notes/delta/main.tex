@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{feynmp}
-\usepackage{amssymb,amsthm,amsbsy,color,paralist}
+\usepackage{amsmath,amssymb,amsthm,amsbsy,color,paralist}
 
 \newcommand{\hp}{{\frac{1}{2}}}
 \newcommand{\hm}{{-\frac{1}{2}}}
@@ -22,7 +22,7 @@
 \section{ $eN \to e\Delta$ reaction}
 	Under certain circumstances, reaction $eN \to e\Delta$ reaction
 	can occur. In lowest order, amplitude can be discribed by the
-	tree-level diagram (fig. \ref{fig:delta-amp} )
+	tree-level diagram (fig. \ref{fig:delta-amp}).
 	\begin{figure} \centering \label{fig:delta-amp}
 	\begin{fmffile}{delta-amp}
 		\begin{fmfgraph*}(40,20)
@@ -40,6 +40,42 @@
 	\caption{Tree-level contribution to reaction $eN \to e\Delta$.}
 	\end{figure}
 	
+	Analytically this amplitude can be expressed in terms of photon propagator,
+	fermionic spinors and vertices:
+	\begin{equation}
+		T = \frac{e^2}{-q^2} \-{u}(k', h') \gamma_\mu u(k, h) \cdot
+		\bar{\psi}_\alpha (p', \tau) \Gamma^{\alpha \mu} u(p, \lambda),
+	\end{equation}
+	where $\psi_\alpha (p', \tau)$ - spin $3/2$ particle spinor for $\Delta$
+	(also known as Rarita-Schwinger spinor). $\gamma N \Delta$ vertice there
+	can be described as following:
+	
+	\begin{align} \label{eqn:polarization-3-vectors}
+	\Gamma^{\alpha \mu} = \sqrt{\frac{2}{3}}& \{ (\gamma^\mu 
+	q^\alpha - \hat{q} g^{\alpha \mu})g_1(Q^2) 
+	\\
+	& + (q \cdot p' g^{\alpha \mu} - q^\alpha p^{\prime \mu}) g_2(Q^2)
+	\\
+	& + (q^\alpha q^\mu - q^2 g^{\alpha \mu}) g_3(Q^2)\} i \gamma_5,
+	\end{align}
+
+	\begin{equation}
+		(\hat{p} - M_\Delta) \psi_\alpha = 0, \,\,\,\, \alpha = 0,1,2,3
+	\end{equation}
+	
+	\begin{equation}
+		p_\alpha \psi_\alpha(p, \tau) = 0.
+	\end{equation}
+
+	For different incoming and outcoming particles, one can construct
+	$2 \times 2 \times 2 \times 4 = 32$ amplitudes $T_{h' \tau, h \lambda}$.
+	However, in a limit of zero electron mass amplitudes with lepton 
+	spin flip are zero. Moreover, parity conservation suggests following
+	relation:
+	\begin{equation}
+		T_{h' \tau, h \lambda} = T_{-h' -\tau, -h -\lambda}
+	\end{equation}
+	Therefore, only $8$ independent amplitudes should be considered.
 	
 \section{$\Delta(1232)$ contribution $e N \to e N$ scattering amplitude}
 	Previous reaction
