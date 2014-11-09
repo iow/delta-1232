@@ -1,9 +1,15 @@
-\documentclass{article}
+\documentclass[12pt]{revtex4-1}
+\DeclareRobustCommand{\baselinestretch{1.3}}
+
+
 \usepackage{feynmp}
 \usepackage{amsmath,amssymb,amsthm,amsbsy,color,paralist}
+\usepackage[titletoc]{appendix}
 
 \newcommand{\hp}{{\frac{1}{2}}}
 \newcommand{\hm}{{-\frac{1}{2}}}
+\newcommand{\tp}{{\frac{3}{2}}}
+\newcommand{\tm}{{-\frac{3}{2}}}
 
 \newcommand{\bk}{{\boldsymbol k}}
 \newcommand{\bq}{{\boldsymbol q}}
@@ -15,6 +21,26 @@
 \newcommand{\cF}{{\cal F}}
 \newcommand{\cma}{{\theta_{cm}}}
 \newcommand{\cM}{{\cal M}}
+
+\newcommand{\jx}{\left( \begin{array}{ccc}
+0 & 0 & 0 \\
+0 & 0 & -i \\
+0 & i & 0 \\
+\end{array}
+\right)}
+\newcommand{\jy}{\left( \begin{array}{ccc}
+0 & 0 & i \\
+0 & 0 & 0 \\
+-i & 0 & 0 \\
+\end{array}
+\right)}
+\newcommand{\jz}{\left( \begin{array}{ccc}
+0 & -i & 0 \\
+i & 0 & 0 \\
+0 & 0 & 0 \\
+\end{array}
+\right)}
+
 
 \begin{document}
 	\unitlength = 1mm
@@ -43,14 +69,14 @@
 	Analytically this amplitude can be expressed in terms of photon propagator,
 	fermionic spinors and vertices:
 	\begin{equation}
-		T = \frac{e^2}{-q^2} \-{u}(k', h') \gamma_\mu u(k, h) \cdot
+		T = \frac{e^2}{-q^2} \bar{u}(k', h') \gamma_\mu u(k, h) \cdot
 		\bar{\psi}_\alpha (p', \tau) \Gamma^{\alpha \mu} u(p, \lambda),
 	\end{equation}
 	where $\psi_\alpha (p', \tau)$ - spin $3/2$ particle spinor for $\Delta$
 	(also known as Rarita-Schwinger spinor). $\gamma N \Delta$ vertice there
 	can be described as following:
 	
-	\begin{align} \label{eqn:polarization-3-vectors}
+	\begin{align} \label{eqn:big-gamma}
 	\Gamma^{\alpha \mu} = \sqrt{\frac{2}{3}}& \{ (\gamma^\mu 
 	q^\alpha - \hat{q} g^{\alpha \mu})g_1(Q^2) 
 	\\
@@ -64,22 +90,100 @@
 	\end{equation}
 	
 	\begin{equation}
-		p_\alpha \psi_\alpha(p, \tau) = 0.
+		p_\alpha \psi^\alpha(p, \tau) = 0.
 	\end{equation}
 
 	For different incoming and outcoming particles, one can construct
 	$2 \times 2 \times 2 \times 4 = 32$ amplitudes $T_{h' \tau, h \lambda}$.
 	However, in a limit of zero electron mass amplitudes with lepton 
 	spin flip are zero. Moreover, parity conservation suggests following
-	relation:
+	relation \cite{bib:leader}:
+	\begin{equation*}
+		T_{h' \tau, h \lambda}(\theta, \phi) 
+		= \frac{\eta_e \eta_p}{\eta_e \eta_\Delta}
+		(-1)^{J_e + J_p - J_e - J_\Delta} (-1)^{(h - \lambda) - (h' - \tau)}
+		T_{-h' -\tau, -h -\lambda} (\theta,-\phi) ,
+	\end{equation*}
+	which in our case takes the form
 	\begin{equation}
-		T_{h' \tau, h \lambda} = T_{-h' -\tau, -h -\lambda}
+		T_{h' \tau, h \lambda}(\theta, \phi) 
+		=
+		(-1) (-1)^{(h - \lambda) - (h' - \tau)}
+		T_{-h' -\tau, -h -\lambda} (\theta,-\phi) 
 	\end{equation}
 	Therefore, only $8$ independent amplitudes should be considered.
 	
+	One can calculate those amplitudes directly substituting helicity spinors
+	and taking products. By convention, we use following spinors:
+	\begin{equation}
+		u_e(\vec k, h) = \sqrt{k_0 + m_e} \left(
+			\begin{array}{ll}
+				\chi_h(\theta, \phi) \\
+				\frac{\vec{\sigma} \vec{k}}{k_0 + m_e} \chi_h(\theta, \phi)
+			\end{array}
+			\right),
+	\end{equation}
+	where $\chi$ is helicity two-spinors. For electron, we take:
+	\begin{equation}
+		\chi_{h=\hp} = 
+		\left( \begin{array}{c}
+		cos \frac{\cma}{2} \\
+		e^{i \phi} sin \frac{\cma}{2} 
+		\end{array} \right) ~~~~
+		\chi_{h=\hm} =  
+		\left( \begin{array}{c}
+		- e^{- i \phi}  sin \frac{\cma}{2} \\
+		cos \frac{\cma}{2} 
+		\end{array} \right).  \nonumber
+	\end{equation}
+	When we write down spinor for countering nucleon, by Jacob-Wick convention
+	we take opposite spinors for $\chi_{\lambda=\hm}$ and $\chi_{\lambda=\hp}$.
+	Additionaly, one should not forget about non-vanishing nucleon mass $M_N$.
+	For Rarita-Schwinger helicity spinor, we use following representation:
+	\begin{align}
+		 \psi^{\mu} (\vec p, +\frac{3}{2}) = &
+		 \varepsilon^{\mu}(\vec p, +1) u(\vec p, \hp),
+		 \\
+		 \psi^{\mu} (\vec p, +\frac{1}{2}) = &
+		 \sqrt{\frac{2}{3}} \varepsilon^{\mu}(\vec p, 0) u(\vec p, \hp) +
+		 \sqrt{\frac{1}{3}} \varepsilon^{\mu}(\vec p, +1) u(\vec p, \hm),
+		 \\
+		 \psi^{\mu} (\vec p, -\frac{1}{2}) = &
+		 \sqrt{\frac{2}{3}} \varepsilon^{\mu}(\vec p, 0) u(\vec p, \hm) +
+		 \sqrt{\frac{1}{3}} \varepsilon^{\mu}(\vec p, -1) u(\vec p, \hp),
+		 \\
+		 \psi^{\mu} (\vec p, -\frac{3}{2}) = &
+		 \varepsilon^{\mu}(\vec p, -1) u(\vec p, \hm),
+	\end{align}
+	which is example of addition of $1/2$ and $1$ spinor forms.
+	Spinor $u(\vec p, \tau)$ can be taken same as for nucleon, except with
+	the mass $M_\Delta = 1232 \text{MeV}$. Polarization vector $\varepsilon^{\mu}$
+	is coming from representation for massive particle of spin $1$.
+	We refer to appendix \ref{sec:polarization} for explicit formulas for this quantity
+	and discussion about the way it is derived for arbitrary angle.
+% 	\begin{align}
+% 	T_{\frac{1}{2}+\frac{3}{2},\frac{1}{2}+\frac{1}{2}} = &
+% 	-\frac{i e^{i \phi } \sin \theta  \left(2 M_\Delta M_N \left(s-M_\Delta^2\right)+s (1-\cos \theta)
+% 	\left(s-M_N^2\right)\right)}{\sqrt{3} \sqrt{s} (1-\cos \theta)) \sqrt{\left(s-M_\Delta^2\right)
+% 	\left(s-M_N^2\right)}} g_1(Q^2) \nonumber
+% 	\\
+% 	+ & \frac{-ie^{i \phi }M_\Delta-M_N\left(2 s \left(s-M_\Delta^2\right)-M_\Delta^2 \sin \theta  
+% 	(1-\cos \theta) \left(s-M_N^2\right)\right.}{2 \sqrt{3} \sqrt{s} (1-\cos \theta) \sqrt{\left(s-M_\Delta^2\right)
+% 	\left(s-M_N^2\right)}} g_2(Q^2) \nonumber
+% 	\\
+% 	+ & -\frac{i e^{i \phi } \sin \theta  (M_\Delta-M_N) \sqrt{\frac{\left(s-M_\Delta^2\right)
+% 	\left(s-M_N^2\right)}{s}}}{\sqrt{3}} g_3(Q^2) \nonumber
+% 	\end{align}
+
 \section{$\Delta(1232)$ contribution $e N \to e N$ scattering amplitude}
-	Previous reaction
+	Previous diagram contributes to the reaction $eN\to e\Delta$ in the leading
+	order of $\alpha_{em}$. One can consider contribution to another important
+	reaction, $eN \to eN$, sketched on fig. \ref{fig:delta-box}. This contribution
+	has order $O(\alpha^2)$, but nontheless can be topical for discussion of 
+	discrepancies from leading order.
+	
 	\begin{figure} \centering
+	\label{fig:delta-box}
 	\begin{fmffile}{delta-box}
 		\begin{fmfgraph*}(40,20)
 			\fmfbottom{i1,d1,o1}
@@ -120,7 +224,7 @@
 	$T_{3} = T_{\hp \hm, \hp \hm}$.
 	
 	The most general form of non-flip amplitude $T$ is:
-	\begin{equation} \label{str_amp} 
+	\begin{equation} \label{eqn:str-amp} 
 		T^{non-flip} = \frac{e^2}{Q^2} \bar{u}(k',h') \gamma_\mu u(k,h) 
 		\, \times \, \bar{u}(p',\lambda') 
 		\left(\cG_M  \gamma^\mu - \cF_2 
@@ -128,4 +232,249 @@
 		\right) u(p,\lambda).
 	\end{equation}
 	
+	One can write down amplitudes explicitly, considering two vertices
+	from eqn. \ref{eqn:big-gamma}, four propagators, and different helicity
+	spinors. Calculating products it is possible to write down equation
+	that will connect form-factors $g_1, g_2, g_3$ from $\gamma N \to\Delta$ vertex
+	and its contribution to lepton-nucleon scattering form-factors $G_M, F_2, F_3$.
+	
+	However, there is another way to tie up those quantities exist.
+	Amplitudes of processes from fig. \ref{fig:delta-amp} and
+	fig. \ref{fig:delta-box} can be connected by unitarity considerations
+	known as optical theorem.
+	
+\section{Optical Theorem}
+	In principle, time-evolution in quantum physics is unitary. This means, that S-matrix
+	is unitary operator:
+	\begin{equation}\label{eqn:unitarity-s}
+		S^+ S = 1.
+	\end{equation}
+	For needs of quantum field theory as pertrubation theory from some "free" state,
+	it is convenient to rewrite this operator in the following form:
+	\begin{equation}
+		S = 1 + i T.
+	\end{equation}
+	The last equation is written in interaction representation, so that in absent of
+	interaction $T = 0$. All corrections, therefore any scattering is present
+	due to nonzero $T$. In the terms of $T$ equation (\ref{eqn:unitarity-s}) can be
+	rewritten in the form:
+	\begin{equation}\label{eqn:unitarity-t}
+		i (T^+ - T) =  T^+ T.
+	\end{equation}
+	We can use this equation to produce relationships for scattering amplitudes.
+	For such purpose we surround it by state vectors. Say we have $2 \to 2$ scattering
+	with momentum states $| k, p \rangle \to | k', p' \rangle$. On the left side,
+	we get scattering amplitudes:
+	\begin{equation} \label{eqn:pre-imaginary}
+		-i[ T(in \to out) - T^\ast(out \to in)].
+	\end{equation}
+	On the right side, we can substract ''completeness relation`` to get the following:
+	\begin{align}
+		 \langle out | T^+ T | in \rangle & =
+		 \sum_{\alpha}  \langle out | T^+| \alpha \rangle \langle \alpha |T | in \rangle 
+		 \nonumber
+		 \\
+		 & = \sum_n \left(\prod_{i=1}^n \int \frac{d^3 q_i}{(2 \pi)^3} \frac{1}{3 q^0_i}
+		 \right) T(in \to \{q_i\}) T^*(out \to \{q_i\}) (2 \pi)^4
+		 \delta^4(k + p - \sum_i q_i)
+	\end{align}
+	In the case of forward scattering $| out \rangle = | in \rangle$, and we get
+	optical theorem:
+	\begin{equation}
+		\Im T(k,p \to k,p) = \sum_i \int d\Pi_i | T(k,p \to \{q_i\}) |^2.
+	\end{equation}
+	For arbitrary scattering mode analogous relation can be not so neat.
+	
+	For the amplitudes (\ref{eqn:str-amp}) for elastic lepton-nucleon scattering,
+	one can derive following formulas for three helicities:
+	\begin{align}\label{eqn:form-factors}
+		T_1 & = 2 \frac{e^2}{Q^2} \left\{ \frac{s u - M_N^4}{s - M_N^2}
+		\left( \cF_2 - \cG_M - \frac{s - M_N^2}{2 M_N^2} \cF_3 \right) + Q^2 \cG_M
+		\right\}
+		\nonumber
+		\\
+		T_2 & = - \frac{e^2}{Q^2} \frac{\sqrt{Q^2(M_N^4 - s u)}}{M_N} \left\{
+		\cF_2 + \frac{2 M_N^2}{s - M_N^2} (\cF_2 - \cG_M) - \cF_3
+		\right\} e^{-i \phi}
+		\nonumber
+		\\
+		T_3 & = 2 \frac{e^2}{Q^2} \frac{s u - M_N^4}{s - M_N^2}\left\{
+		\cF_2 - \cG_M - \frac{s - M_N^2}{2 M_N^2} \cF_3 \right\}
+	\end{align}
+	For scattering to angle $\theta_{cm}$ one have $\phi = 0$, and instead of
+	(\ref{eqn:pre-imaginary}) one can write simply $\Im T_1, \Im T_2, \Im T_3$
+	respectively. Those quantities can be written by simply substituting $\Im \cF_i$
+	instead of $\cF_i$ to right side of (\ref{eqn:form-factors}).
+	
+	Now we consider contribution discussed in previous section. Following above
+	procedure, we can write down following equations:
+	\begin{equation}\label{eqn:optical-diags}
+	 2 \Im T_{h' \lambda', h \lambda}  =
+	 \sum_{\chi, \tau} \int \frac{d^3 q_e}{(2 \pi)^3} \frac{1}{2 q^0_e}
+	 \int \frac{d^3 q_\Delta}{(2 \pi)^3} \frac{1}{2 q^0_\Delta}
+	 T^{*}_{\chi \tau , h' \lambda'}(k' p' \to q_e q_\Delta)
+	 T_{\chi \tau, h \lambda}(k' p' \to q_e q_\Delta)
+	 (2 \pi)^4 \delta^4 (p+k-q_e - q_\Delta).
+	 \\ 
+	\end{equation}
+	We can use this equation to connect amplitudes of $eN \to eN$ and $eN \to e \Delta$
+	in the way discussed in the end of the previous section. It is worth noting that
+	if we insert diagram of order $O(\alpha_{em})$ on the right side (and its conjugate
+	partner), we will obtain imaginary part of amplitude of order $O(\alpha_{em}^2)$
+	on the left side. This is exactly what we need.
+	
+	Integration on the right side of (\ref{eqn:optical-diags}) can be simplified.
+	In nucleon case integration can be easily simplified:
+	\begin{align}
+		 \int \frac{d^3 q_e d^3 q_\Delta}{(2 \pi)^6} \frac{1}{4 q^0_e q^0_\Delta}
+		(2 \pi)^4 \delta^4 (k + p-\sum_i q_i)
+		& =  \frac{1}{(2 \pi)^2 4 E_1 E_2} \int q_1^2 d q_1sin \theta d \theta d \phi
+		\delta( |q_1| + \sqrt{q_1^2 + M_\Delta^2} - \sqrt{s} )
+		\nonumber
+		\\
+		& =  \frac{1}{4 (2 \pi)^2} \int \frac{q_1^2}{q_1 (|q_1| + \sqrt{q_1^2 + M^2})}
+		\delta( q_1 - q) d q_1sin \theta d \theta d \phi
+		\nonumber
+		\\
+		& =  \frac{1}{16 \pi^2} \frac{q}{|q| + \sqrt{q^2 + M_\Delta^2}}
+		\int sin \theta d \theta d \phi
+		\nonumber
+		\\
+		& =  \frac{1}{32 \pi^2} \frac{\sqrt{\Lambda(s)}}{s} \int d \Omega \nonumber
+	\end{align}
+	with $ \Lambda(s) = ( s - M_\Delta^2 )^2 $.
+	In this way we can rewrite set of equations (\ref{eqn:optical-diags})
+	in a suitable form:
+	\begin{align}
+		 \Im T_1 & = \frac{\sqrt{\Lambda(s)}}{64 \pi^2 s} \int d \Omega
+		 \left[ \tilde{T}_{\hp \tp, \hp \hp} T_{\hp \tp, \hp \hp}
+		  + \tilde{T}_{\hp \hp, \hp \hp} T_{\hp \hp, \hp \hp}
+		  + \tilde{T}_{\hp \hm, \hp \hp} T_{\hp \hm, \hp \hp}
+		  + \tilde{T}_{\hp \tm, \hp \hp} T_{\hp \tm, \hp \hp}
+		 \right],
+		 \nonumber
+		 \\
+		 \Im T_2 & = \frac{\sqrt{\Lambda(s)}}{64 \pi^2 s} \int d \Omega
+		 \left[ \tilde{T}_{\hp \tp, \hp \hm} T_{\hp \tp, \hp \hp}
+		  + \tilde{T}_{\hp \hp, \hp \hm} T_{\hp \hp, \hp \hp}
+		  + \tilde{T}_{\hp \hm, \hp \hm} T_{\hp \hm, \hp \hp}
+		  + \tilde{T}_{\hp \tm, \hp \hm} T_{\hp \tm, \hp \hp}
+		 \right],
+		 \nonumber
+		 \\
+		 \Im T_3 & = \frac{\sqrt{\Lambda(s)}}{64 \pi^2 s} \int d \Omega
+		 \left[ \tilde{T}_{\hp \tp, \hp \hm} T_{\hp \tp, \hp \hm}
+		  + \tilde{T}_{\hp \hp, \hp \hm} T_{\hp \hp, \hp \hm}
+		  + \tilde{T}_{\hp \hm, \hp \hm} T_{\hp \hm, \hp \hm}
+		  + \tilde{T}_{\hp \tm, \hp \hm} T_{\hp \tm, \hp \hm}
+		 \right], 
+	\end{align}
+	where by $\tilde{T_{....}}$ we mean both complex conjugation and using
+	outcoming $eN$ states.
+\begin{appendices}
+\section{Massive Spin $S=1$ Polarization Vectors}\label{sec:polarization}
+
+	For massive particle with spin 1 there are three independent polarizations.
+	They are described by polarization vector $\epsilon^{\mu}(\vec{p}, \lambda)$,
+	where $\lambda = 0$ stands for longitudinal polarization (absent in case
+	of massless particle), $\lambda = \pm 1$ are right and left polarized 
+	respectively.
+	We will talk about polarization along  momentum $\vec{p}$, i.e. \textit{helicity}.
+	Such convention is meaningless in the rest frame (for a massive particle),
+	but in such case all three polarizations are equivalent. Anyway, we will
+	mostly work in center of mass frame (with other particle present), so 
+	below equations will be essential.
+
+	General formula for polarization 4-vector can be written as follows:
+	\begin{equation}
+		\epsilon^{\mu}(\vec p, \lambda) = \left( \frac{\vec{p}\cdot 
+		\vec{\varepsilon_{\lambda}}}{M} , \vec{\varepsilon_{\lambda}}
+		+ \frac{\vec{p}\cdot 
+		\vec{\varepsilon_{\lambda}}}{p^0 + M} \frac{\vec{p}}{M}
+		\right),
+	\end{equation}
+	with $\vec{\varepsilon}_{\lambda}$ - some 3-vectors, which also called
+	polarization vectors ($p^0 = \sqrt{\vec{p}^2 + M^2}$).
+	For particle with momentum along $z$-axis, this vectors are straightforward:
+	\begin{align} \label{eqn:polarization-3-vectors}
+		\vec{\varepsilon}_{\lambda = 0}= & (0, 0 ,1), \\
+		\vec{\varepsilon}_{\lambda = \pm 1}= & \mp \frac{1}{\sqrt{2}}(1, \pm i,0).
+	\end{align}
+	For general $\vec{p} = (p \sin\theta \cos\phi, p \sin\theta \sin\phi,
+	p \cos(\phi)$ corresponding expressions are bit cumbersome.
+
+	For \textbf{longitudinal} polarization, polarization is collinear with
+	monentum vector, i.e. $\vec{\varepsilon}_{\lambda = 0} = \vec{p}/|\vec{p}|$.
+	Substitution to general formula yields:
+	\begin{equation}
+		\epsilon^{\mu}(\vec p, \lambda = 0) = \left( \frac{|\vec{p}|}{M} ,
+		\frac{p^0 \vec{p}}{M |\vec{p}|}	\right).
+	\end{equation}
+	To obtain \textbf{transversal} polarization, we will use another trick.
+	Suppose we work in coordinate system, where $\vec{p} = p \hat{z}$.
+	Then in this frame polarization 3-vectors are taken from 
+	(\ref{eqn:polarization-3-vectors}). Now we apply rotational operators
+	to this vectors, to get spinors, which satisfy following condition:
+	\begin{equation}
+		(\vec{J} \cdot \vec{n} ) \epsilon_{\lambda} = \lambda \epsilon_{\lambda}.
+	\end{equation}
+	Here $\vec{J} = (J_1, J_2, J_3)$ - spin operator, which in our representation
+	has the form:
+	\begin{equation}
+		J_1 = \jx,\, J_2 = \jy,\, J_3 = \jz. 
+	\end{equation}
+	Then, we write (quite general) rotational operator:
+	\begin{equation}
+		R(\theta, \phi) = e^{-i \phi J_3} e^{- i \theta J_2} e^{+ i \phi J_3}.
+	\end{equation}
+	Taking matrix exponent is straightforward:
+	\begin{equation*}
+	e^{-i \phi J_3} = 
+	\left(
+	\begin{array}{ccc}
+	\cos \phi & -\sin\phi & 0 \\
+	\sin \phi & \cos \phi & 0 \\
+	0 & 0 & 1 \\
+	\end{array}
+	\right),\,
+	e^{-i \theta J_2} = 
+	\left(
+	\begin{array}{ccc}
+	\cos \theta & 0 & \sin \theta \\
+	0 & 1 & 0 \\
+	-\sin \theta & 0 & \cos \theta \\
+	\end{array}
+	\right).
+	\end{equation*}
+	Using rotational operator on $\vec \varepsilon_{\lambda = 0}$ gives us
+	previous result. For $\vec \varepsilon_{\lambda = \pm 1}$ one can get
+	\begin{align} \label{eqn:polarization-3-vectors}
+		\vec{\varepsilon}_{\lambda = +1}= & -\frac{1}{\sqrt{2}} &
+		\left(\cos^2 \frac{\theta}{2} - e^{+2 i \phi}\sin^2 \frac{\theta}{2} ,
+		+i(\cos^2 \frac{\theta}{2} + e^{+2 i \phi}\sin^2 \frac{\theta}{2}) ,
+		- e^{+i \phi} sin \theta \right),
+		\\
+		\vec{\varepsilon}_{\lambda = -1}= & +\frac{1}{\sqrt{2}} &
+		\left(\cos^2 \frac{\theta}{2} - e^{-2 i \phi}\sin^2 \frac{\theta}{2} , 
+		-i(\cos^2 \frac{\theta}{2} + e^{-2 i \phi}\sin^2 \frac{\theta}{2}) ,
+		- e^{-i \phi} sin \theta \right),
+	\end{align}
+	Substituting these 3-vectors to general formula for 4-vector, one gets:
+	\begin{equation}
+		\epsilon^{\mu}(\vec p, \lambda = \pm 1) = \left( 0 ,
+		\vec{\varepsilon}_{\lambda = \pm 1} \right).
+	\end{equation}
+
+	Notice, that $p_{\mu} \epsilon^{\mu} = 0$ for $p$ on mass shell.
+	
+\section{Amplitudes for $eN -> e\Delta$ scattering}\label{sec:in-to-intermediate}	
+	
+\end{appendices}
+	
+\begin{thebibliography}{99}
+	\bibitem{bib:leader}
+		E.~ Leader, {\it Spin in particle physics\/}, Cambridge University Press,
+		Cambridge (2001).
+\end{thebibliography}
+
 \end{document}

@@ -83,7 +83,8 @@ For using in eN-> process, where N is nucleon with mass \
 mN (either proton or neutron)";
 leptonIn[mN_, s_, helicity_]:=
 	leptonOut[mN, s, 0, 0, helicity];
-
+leptonIn[mN_, s_, theta_, phi_, helicity_]:=
+	leptonOut[mN, s, 0, 0, helicity];
 
 
 nucleonOut::usage =
@@ -110,7 +111,8 @@ For using in eN->X process, where N is nucleon with mass \
 mN (either proton or neutron). Taken in the mL<<mN limit.";
 nucleonIn[mN_, s_, helicity_]:=
 	nucleonOut[mN, s, 0, 0, helicity];
-
+nucleonIn[mN_, s_, theta_, phi_, helicity_]:=
+	nucleonOut[mN, s, 0, 0, helicity];
 
 
 g::usage="Minkowski metric tensor";
@@ -194,6 +196,9 @@ Superscript[raritaOut[mDelta_, s_, theta_, phi_, helicity_],mu_]:=
 		Message[raritaTwo::invhel, helicity]
 	]
 raritaOut::invhel="Helicity `1` is not equal to +1, 0, -1";
+
+Superscript[raritaIn[mDelta_, s_, theta_, phi_, helicity_],mu_]:=
+	Superscript[raritaOut[mDelta, s, theta, phi, helicity],mu];
 
 
 (*Subscript[tDelta[s, theta_, phi_], hOut_, tau_, hIn_, lambdaIn_]:=
