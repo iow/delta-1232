@@ -67,13 +67,13 @@ leptonOut[mN_, s_, theta_, phi_, helicity_]:=
 		{  
 			mL = 0,
 			k0 = (s - mN^2)/(2 Sqrt[s]),
-			kAbs = (s - mN^2)/(2 Sqrt[s]),
-			kVector = polarVector[(s - mN^2)/(2 Sqrt[s]),theta, phi]
+			kAbs = (s - mN^2)/(2 Sqrt[s])
 		},
 			Return[Sqrt[k0 + mL]
 					*Join[chiFirst[theta,phi,helicity],
-					      (kVector.pauliVector/(k0 + mL)).
-					       chiFirst[theta,phi,helicity]]
+					      2 * helicity * kAbs *
+					       chiFirst[theta,phi,helicity]/(k0 + mL)]
+					//Simplify[#, s>0 ]&
 			]
 	];
 leptonIn::usage =
@@ -84,7 +84,7 @@ mN (either proton or neutron)";
 leptonIn[mN_, s_, helicity_]:=
 	leptonOut[mN, s, 0, 0, helicity];
 leptonIn[mN_, s_, theta_, phi_, helicity_]:=
-	leptonOut[mN, s, 0, 0, helicity];
+	leptonOut[mN, s, theta, phi, helicity];
 
 
 nucleonOut::usage =
@@ -96,13 +96,13 @@ nucleonOut[mN_, s_, theta_, phi_, helicity_]:=
 		{  
 			mL = 0,
 			p0 = (s + mN^2)/(2 Sqrt[s]),
-			pAbs = (s - mN^2)/(2 Sqrt[s]),
-			pVector = polarVector[(s - mN^2)/(2 Sqrt[s]),theta, phi]
+			pAbs = (s - mN^2)/(2 Sqrt[s])
 		},
 			Return[Sqrt[p0 + mN]
 					* Join[chiSecond[theta,phi,helicity],
-					      (pVector.pauliVector/(p0 + mN)).
-					       chiSecond[theta,phi,helicity]]
+					       2 * helicity * pAbs *
+							chiSecond[theta,phi,helicity]/(p0 + mN)]
+					//Simplify[#, s>0 && mN>0 && s > mN^2]&
 			]
 	];
 nucleonIn::usage =
@@ -112,7 +112,7 @@ mN (either proton or neutron). Taken in the mL<<mN limit.";
 nucleonIn[mN_, s_, helicity_]:=
 	nucleonOut[mN, s, 0, 0, helicity];
 nucleonIn[mN_, s_, theta_, phi_, helicity_]:=
-	nucleonOut[mN, s, 0, 0, helicity];
+	nucleonOut[mN, s, theta, phi, helicity];
 
 
 g::usage="Minkowski metric tensor";
@@ -126,6 +126,7 @@ Subscript[gamma,0]={{1,0,0,0},{0,1,0,0},{0,0,-1,0},{0,0,0,-1}};
 Subscript[gamma,1]={{0,0,0,1},{0,0,1,0},{0,-1,0,0},{-1,0,0,0}};
 Subscript[gamma,2]={{0,0,0,-I},{0,0,I,0},{0,I,0,0},{-I,0,0,0}};
 Subscript[gamma,3]={{0,0,1,0},{0,0,0,-1},{-1,0,0,0},{0,1,0,0}};
+e::usage="Subscript[e,0] - 4x4 unit matrix"
 Subscript[e,0]={{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
 Subscript[gamma,5]={{0,0,1,0},{0,0,0,1},{1,0,0,0},{0,1,0,0}};
 
